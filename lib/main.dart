@@ -35,24 +35,76 @@ class AirBnbApartmentVerificatorApp extends StatelessWidget {
   }
 }
 
-class FormPagerScreen extends StatefulWidget {
+class FormPagerScreen extends StatelessWidget {
   const FormPagerScreen({super.key});
 
   @override
-  State<StatefulWidget> createState() => _FormPagerScreenState();
+  Widget build(BuildContext context) {
+    return Navigator(
+      initialRoute: "PageOne",
+      onGenerateRoute: (RouteSettings settings) {
+        WidgetBuilder builder;
+        switch (settings.name) {
+          case "PageOne":
+            builder = (BuildContext context) => const FormPageOne();
+            break;
+
+          case "PageTwo":
+            builder = (BuildContext context) => FormPageTwo(onNextPage: () {});
+            break;
+
+          default:
+            throw Exception("Invalid Route...");
+        }
+        return MaterialPageRoute(builder: builder, settings: settings);
+      },
+    );
+  }
 }
 
-class _FormPagerScreenState extends State<FormPagerScreen> {
+class FormPageOne extends StatefulWidget {
+  const FormPageOne({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _PageOneState();
+}
+
+class _PageOneState extends State<FormPageOne> {
+  void _onNextPage() {
+    Navigator.pushNamed(context, "PageTwo");
+  }
+
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.all(8.0),
-      child: Text(
-        "Test",
-        style: TextStyle(
-          color: Colors.white,
-        ),
+    return Center(
+      child: Column(
+        children: [
+          const Text("1"),
+          MaterialButton(
+            onPressed: _onNextPage,
+            child: const Text("Siguiente"),
+          )
+        ],
       ),
+    );
+  }
+}
+
+class FormPageTwo extends StatelessWidget {
+  const FormPageTwo({super.key, required this.onNextPage});
+
+  final VoidCallback onNextPage;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        const Text("2"),
+        MaterialButton(
+          onPressed: onNextPage,
+          child: const Text("Siguiente"),
+        )
+      ],
     );
   }
 }
