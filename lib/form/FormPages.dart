@@ -15,6 +15,21 @@ class FormPageOne extends StatefulWidget {
 class _PageOneState extends State<FormPageOne> {
   @override
   Widget build(BuildContext context) {
+    // dynamic way of listing verification items
+    /*ListView.builder(itemBuilder: (context, position){
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          const Text("Cocina"),
+          Switch(
+              value: formData.kitchenData.kitchenOkay,
+              onChanged: (bool newValue) {
+                formData.updateKitchenData(
+                    formData.kitchenData.copyWith(kitchenOkay: newValue));
+              }),
+        ],
+      )
+    }, itemCount: 10);*/
     return Scaffold(
         body: Consumer<FormData>(
           builder: (context, formData, child) {
