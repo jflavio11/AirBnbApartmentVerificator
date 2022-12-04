@@ -32,7 +32,7 @@ class AirBnbApartmentVerificatorApp extends StatelessWidget {
       initialRoute: FormPagerScreen.route,
       routes: {
         FormPagerScreen.route: (context) =>
-            const SafeArea(top: true, bottom: true, child: FormPagerScreen())
+             SafeArea(top: true, bottom: true, child: FormPagerScreen())
       },
     );
   }

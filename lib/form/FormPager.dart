@@ -7,30 +7,41 @@ import 'FormPages.dart';
 class FormPagerScreen extends StatelessWidget {
   static const String route = "FormScreenFlow";
 
-  const FormPagerScreen({super.key});
+  FormPagerScreen({super.key});
+
+  final GlobalKey<NavigatorState> _navigatorKey = GlobalKey<NavigatorState>();
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-        create: (context) => FormData(),
-        child: Navigator(
-          initialRoute: FormPageOne.route,
-          onGenerateRoute: (RouteSettings settings) {
-            WidgetBuilder builder;
-            switch (settings.name) {
-              case FormPageOne.route:
-                builder = (BuildContext context) => const FormPageOne();
-                break;
+    return WillPopScope(
+        child: ChangeNotifierProvider(
+            create: (context) => FormData(),
+            child: Navigator(
+              initialRoute: FormPageOne.route,
+              key: _navigatorKey,
+              onGenerateRoute: (RouteSettings settings) {
+                WidgetBuilder builder;
+                switch (settings.name) {
+                  case FormPageOne.route:
+                    builder = (BuildContext context) => const FormPageOne();
+                    break;
 
-              case FormPageTwo.route:
-                builder = (BuildContext context) => const FormPageTwo();
-                break;
+                  case FormPageTwo.route:
+                    builder = (BuildContext context) => const FormPageTwo();
+                    break;
 
-              default:
-                throw Exception("Invalid Route...");
-            }
-            return MaterialPageRoute(builder: builder, settings: settings);
-          },
-        ));
+                  default:
+                    throw Exception("Invalid Route...");
+                }
+                return MaterialPageRoute(builder: builder, settings: settings);
+              },
+              onPopPage: (route, result) {
+                return route.didPop(result);
+              },
+            )),
+        onWillPop: () async {
+          _navigatorKey.currentState?.pop("");
+          return false;
+        });
   }
 }
