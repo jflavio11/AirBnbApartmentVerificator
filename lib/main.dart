@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:localization/localization.dart';
 
 import 'form/FormPager.dart';
 
@@ -13,8 +15,19 @@ class AirBnbApartmentVerificatorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
+    LocalJsonLocalization.delegate.directories = ['assets/strings'];
     return MaterialApp(
       title: 'AirBnb Apartment Verificator',
+      localizationsDelegates: [
+        LocalJsonLocalization.delegate,
+      ],
+      supportedLocales: const [Locale('es', 'ES')],
+      localeResolutionCallback: (locale, supportedLocales) {
+        if (supportedLocales.contains(locale)) {
+          return locale;
+        }
+        return const Locale('es', 'ES');
+      },
       theme: ThemeData(
           scaffoldBackgroundColor: Colors.black,
           colorScheme: const ColorScheme(
@@ -31,10 +44,8 @@ class AirBnbApartmentVerificatorApp extends StatelessWidget {
               onSurface: Colors.white)),
       initialRoute: FormPagerScreen.route,
       routes: {
-        FormPagerScreen.route: (context) =>
-             SafeArea(top: true, bottom: true, child: FormPagerScreen())
+        FormPagerScreen.route: (context) => SafeArea(top: true, bottom: true, child: FormPagerScreen())
       },
     );
   }
 }
-
