@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -20,6 +21,9 @@ class AirBnbApartmentVerificatorApp extends StatelessWidget {
       title: 'AirBnb Apartment Verificator',
       localizationsDelegates: [
         LocalJsonLocalization.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate
       ],
       supportedLocales: const [Locale('es', 'ES')],
       localeResolutionCallback: (locale, supportedLocales) {

@@ -27,8 +27,10 @@ class KitchenData {
   KitchenData({this.extraComments = ""})
       : kitchenStateData = <int, bool>{0: true, 1: true, 2: true, 3: true, 4: true, 5: true, 6: true};
 
-  KitchenData copyWith(int key, bool newValue, {String? extraComments}) {
-    kitchenStateData.update(key, (value) => newValue);
+  KitchenData copyWith({int? key, bool? newValue, String? extraComments}) {
+    if (key != null && newValue != null) {
+      kitchenStateData.update(key, (value) => newValue);
+    }
     KitchenData updated = KitchenData(extraComments: extraComments ?? this.extraComments);
     updated.kitchenStateData = kitchenStateData;
     return updated;
