@@ -26,10 +26,6 @@ class FormPagerScreen extends StatelessWidget {
                     builder = (BuildContext context) => const FormPageOne();
                     break;
 
-                  case FormPageTwo.route:
-                    builder = (BuildContext context) => const FormPageTwo();
-                    break;
-
                   default:
                     throw Exception("Invalid Route...");
                 }

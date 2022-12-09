@@ -1,4 +1,5 @@
 {
+  "kitchen_title": "Revisión de cocina",
   "kitchen_kitchenOkay": "Cocina",
   "kitchen_kitchenetTableOkay": "Tablero de cuarzo",
   "kitchen_homeAppliancesOkay": "Electrodomésticos",
@@ -6,5 +7,16 @@
   "kitchen_wineGlassesOkay": "Copas de vidrio",
   "kitchen_dishesOkay": "Platos y menaje",
   "kitchen_cupsOkay": "Tazas",
-  "kitchen_extraComments": "Comentarios extra"
+  "kitchen_extraComments": "Comentarios extra",
+
+
+  "Bedrooms_title": "Revisión de habitaciones",
+  "bedroom_walls":  "Paredes",
+  "bedroom_bed": "Cama",
+  "bedroom_bedsideTable":  "Mesas de noche",
+  "bedroom_lamps": "Lámparas",
+  "bedroom_tv":  "TV",
+  "bedroom_wardrobe": "Ropero",
+  "bedroom_duvet": "Duvet y sábanas"
+
 }
