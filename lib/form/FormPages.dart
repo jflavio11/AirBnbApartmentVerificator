@@ -1,3 +1,4 @@
+import 'package:airbnb_apartment_verificator/form/verificator_list_view.dart';
 import 'package:flutter/material.dart';
 import 'package:localization/localization.dart';
 import 'package:provider/provider.dart';
@@ -11,44 +12,52 @@ class FormPageOne extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Consumer<FormData>(builder: (context, formData, child) {
-        return Padding(
+    return Consumer<FormData>(builder: (context, formData, child) {
+      String title = "";
+      switch (formData.getVerificationZoneForPage()) {
+        case VerificationZone.Kitchen:
+          title = "${VerificationZone.Kitchen.name}_title".toLowerCase().i18n();
+          break;
+        case VerificationZone.Bedrooms:
+          title = "${VerificationZone.Bedrooms.name}_title".i18n();
+          break;
+        case VerificationZone.Bathrooms:
+          break;
+        case VerificationZone.LivingRoom:
+          break;
+      }
+      return Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.black,
+          title: Text(
+            title,
+            style: const TextStyle(
+              fontSize: 24.0,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+          leading: Builder(builder: (BuildContext context) {
+            return IconButton(
+              onPressed: () {
+                formData.previousPage();
+              },
+              icon: const Icon(Icons.arrow_back),
+            );
+          }),
+        ),
+        body: Padding(
           padding: const EdgeInsets.all(24.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(12.0),
-                child:
-                    Text("Revisión de cocina", style: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w500)),
+              VerificatorListView(
+                formData: formData,
+                verificationZone: formData.getVerificationZoneForPage(),
               ),
-              ListView.builder(
-                  key: UniqueKey(),
-                  shrinkWrap: true,
-                  itemCount: formData.kitchenData.kitchenStateData.length,
-                  itemBuilder: (context, position) {
-                    return Row(
-                      key: UniqueKey(),
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(KitchenData.stateDataStringMapper[position].toString().i18n()),
-                        Switch(
-                          value: formData.kitchenData.kitchenStateData[position] ?? false,
-                          onChanged: (bool updatedValue) {
-                            KitchenData updated = formData.kitchenData.copyWith(
-                              key: position,
-                              newValue: updatedValue,
-                            );
-                            formData.updateKitchenData(updated);
-                          },
-                        ),
-                      ],
-                    );
-                  }),
               const Divider(height: 20.0),
               const Spacer(),
               TextField(
+                controller: TextEditingController(text: formData.getCurrentComments()),
                 keyboardType: TextInputType.text,
                 textInputAction: TextInputAction.done,
                 maxLines: 7,
@@ -62,45 +71,19 @@ class FormPageOne extends StatelessWidget {
                 textAlign: TextAlign.justify,
                 onSubmitted: (String? text) {
                   String updatedText = text ?? "";
-                  formData.updateKitchenData(formData.kitchenData.copyWith(extraComments: updatedText));
+                  formData.updateCommentsForCurrentPage(updatedText);
                 },
               ),
               OutlinedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, FormPageTwo.route);
+                  formData.nextPage();
                 },
                 child: const Text("Siguiente"),
               ),
             ],
           ),
-        );
-      }),
-    );
-  }
-}
-
-class FormPageTwo extends StatefulWidget {
-  static const String route = "FormPageTwo";
-
-  const FormPageTwo({super.key});
-
-  @override
-  State<StatefulWidget> createState() => _FormPageTwoState();
-}
-
-class _FormPageTwoState extends State<FormPageTwo> {
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const Text("2"),
-        MaterialButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text("Siguiente"),
-        )
-      ],
-    );
+        ),
+      );
+    });
   }
 }
