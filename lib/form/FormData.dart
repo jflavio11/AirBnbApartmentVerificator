@@ -2,8 +2,30 @@ import 'package:flutter/cupertino.dart';
 
 class FormData with ChangeNotifier {
   int _currentPage = 0;
-  KitchenData kitchenData = KitchenData();
-  BedroomData bedroomData = BedroomData();
+  Map<VerificationZone, ZoneStateData> data = <VerificationZone, ZoneStateData>{
+    VerificationZone.Kitchen: const ZoneStateData(
+      data: {
+        "kitchen_kitchenOkay": true,
+        "kitchen_kitchenetTableOkay": true,
+        "kitchen_homeAppliancesOkay": true,
+        "kitchen_glassesOkay": true,
+        "kitchen_wineGlassesOkay": true,
+        "kitchen_dishesOkay": true,
+        "kitchen_cupsOkay": true,
+      },
+    ),
+    VerificationZone.Bedrooms: const ZoneStateData(
+      data: {
+        "bedroom_walls": true,
+        "bedroom_bed": true,
+        "bedroom_bedsideTable": true,
+        "bedroom_lamps": true,
+        "bedroom_tv": true,
+        "bedroom_wardrobe": true,
+        "bedroom_duvet": true,
+      },
+    ),
+  };
 
   void nextPage() {
     _currentPage++;
@@ -13,6 +35,16 @@ class FormData with ChangeNotifier {
   void previousPage() {
     if (_currentPage == 0) return;
     _currentPage--;
+    notifyListeners();
+  }
+
+  void updateData(VerificationZone zone, int position, bool newValue) {
+    ZoneStateData selectedZoneData = data[zone]!;
+    ZoneStateData updatedData = selectedZoneData.copyWith(
+      keyToUpdate: selectedZoneData.data.keys.toList()[position],
+      newValue: newValue,
+    );
+    data[zone] = updatedData;
     notifyListeners();
   }
 
@@ -32,108 +64,38 @@ class FormData with ChangeNotifier {
   }
 
   String getCurrentComments() {
-    String comments = "";
-    switch (getVerificationZoneForPage()) {
-      case VerificationZone.Kitchen:
-        comments = kitchenData.extraComments;
-        break;
-      case VerificationZone.Bedrooms:
-        comments = bedroomData.extraComments;
-        break;
-      case VerificationZone.Bathrooms:
-        // TODO: Handle this case.
-        break;
-      case VerificationZone.LivingRoom:
-        // TODO: Handle this case.
-        break;
-    }
-    return comments;
+    return data[getVerificationZoneForPage()]?.extraComments ?? "";
   }
 
-  void updateKitchenData(KitchenData kitchenData) {
-    this.kitchenData = kitchenData;
+  void updateCommentsForCurrentPage(String? extraComments) {
+    ZoneStateData selectedZoneData = data[getVerificationZoneForPage()]!;
+    ZoneStateData updatedData = selectedZoneData.copyWith(extraComments: extraComments);
+    data[getVerificationZoneForPage()] = updatedData;
     notifyListeners();
-  }
-
-  void updateBedroomData(BedroomData bedroomData) {
-    this.bedroomData = bedroomData;
-    notifyListeners();
-  }
-
-  void updateCommentsForCurrentPage(String extraComments) {
-    switch (getVerificationZoneForPage()) {
-      case VerificationZone.Kitchen:
-        updateKitchenData(
-          kitchenData.copyWith(extraComments: extraComments),
-        );
-        break;
-      case VerificationZone.Bedrooms:
-        updateBedroomData(
-          bedroomData.copyWith(extraComments: extraComments),
-        );
-        break;
-      case VerificationZone.Bathrooms:
-        // TODO: Handle this case.
-        break;
-      case VerificationZone.LivingRoom:
-        // TODO: Handle this case.
-        break;
-    }
   }
 }
 
 enum VerificationZone { Kitchen, Bathrooms, Bedrooms, LivingRoom }
 
-class KitchenData {
-  String extraComments;
-  Map<int, bool> kitchenStateData;
+@immutable
+class ZoneStateData {
+  final String extraComments;
+  final Map<String, bool> data;
 
-  KitchenData({this.extraComments = ""})
-      : kitchenStateData = <int, bool>{0: true, 1: true, 2: true, 3: true, 4: true, 5: true, 6: true};
+  const ZoneStateData({this.extraComments = "", required this.data});
 
-  KitchenData copyWith({int? key, bool? newValue, String? extraComments}) {
-    if (key != null && newValue != null) {
-      kitchenStateData.update(key, (value) => newValue);
-    }
-    KitchenData updated = KitchenData(extraComments: extraComments ?? this.extraComments);
-    updated.kitchenStateData = kitchenStateData;
+  ZoneStateData copyWith({String? keyToUpdate, bool? newValue, String? extraComments}) {
+    Map<String, bool> updatedMap = data.map((key, value) {
+      if (key == keyToUpdate && keyToUpdate != null) {
+        return MapEntry(keyToUpdate, newValue ?? value);
+      } else {
+        return MapEntry(key, value);
+      }
+    });
+    ZoneStateData updated = ZoneStateData(
+      extraComments: extraComments ?? this.extraComments,
+      data: updatedMap,
+    );
     return updated;
   }
-
-  static const Map<int, String> stateDataStringMapper = <int, String>{
-    0: "kitchen_kitchenOkay",
-    1: "kitchen_kitchenetTableOkay",
-    2: "kitchen_homeAppliancesOkay",
-    3: "kitchen_glassesOkay",
-    4: "kitchen_wineGlassesOkay",
-    5: "kitchen_dishesOkay",
-    6: "kitchen_cupsOkay"
-  };
-}
-
-class BedroomData {
-  String extraComments;
-  Map<int, bool> bedroomStateData;
-
-  BedroomData({this.extraComments = ""})
-      : bedroomStateData = <int, bool>{0: true, 1: true, 2: true, 3: true, 4: true, 5: true, 6: true};
-
-  BedroomData copyWith({int? key, bool? newValue, String? extraComments}) {
-    if (key != null && newValue != null) {
-      bedroomStateData.update(key, (value) => newValue);
-    }
-    BedroomData updated = BedroomData(extraComments: extraComments ?? this.extraComments);
-    updated.bedroomStateData = bedroomStateData;
-    return updated;
-  }
-
-  static const Map<int, String> stateDataStringMapper = <int, String>{
-    0: "bedroom_walls",
-    1: "bedroom_bed",
-    2: "bedroom_bedsideTable",
-    3: "bedroom_lamps",
-    4: "bedroom_tv",
-    5: "bedroom_wardrobe",
-    6: "bedroom_duvet"
-  };
 }

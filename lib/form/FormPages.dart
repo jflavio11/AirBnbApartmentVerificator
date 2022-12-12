@@ -13,19 +13,10 @@ class FormPageOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<FormData>(builder: (context, formData, child) {
-      String title = "";
-      switch (formData.getVerificationZoneForPage()) {
-        case VerificationZone.Kitchen:
-          title = "${VerificationZone.Kitchen.name}_title".toLowerCase().i18n();
-          break;
-        case VerificationZone.Bedrooms:
-          title = "${VerificationZone.Bedrooms.name}_title".i18n();
-          break;
-        case VerificationZone.Bathrooms:
-          break;
-        case VerificationZone.LivingRoom:
-          break;
-      }
+      String title =
+          "${formData.data.keys.firstWhere((i) => i == formData.getVerificationZoneForPage()).name}_title"
+              .toLowerCase()
+              .i18n();
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.black,
