@@ -38,40 +38,40 @@ class FormPageOne extends StatelessWidget {
         ),
         body: Padding(
           padding: const EdgeInsets.all(24.0),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              VerificatorListView(
-                formData: formData,
-                verificationZone: formData.getVerificationZoneForPage(),
-              ),
-              const Divider(height: 20.0),
-              const Spacer(),
-              TextField(
-                controller: TextEditingController(text: formData.getCurrentComments()),
-                keyboardType: TextInputType.text,
-                textInputAction: TextInputAction.done,
-                maxLines: 7,
-                maxLength: 500,
-                decoration: const InputDecoration(
-                    enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                    focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
-                    labelText: "Comentarios extra",
-                    hintText: "Detalles sobre algún incidente que se desee especificar",
-                    floatingLabelBehavior: FloatingLabelBehavior.always),
-                textAlign: TextAlign.justify,
-                onSubmitted: (String? text) {
-                  String updatedText = text ?? "";
-                  formData.updateCommentsForCurrentPage(updatedText);
-                },
-              ),
-              OutlinedButton(
-                onPressed: () {
-                  formData.nextPage();
-                },
-                child: const Text("Siguiente"),
-              ),
-            ],
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                VerificatorListView(
+                  formData: formData,
+                  verificationZone: formData.getVerificationZoneForPage(),
+                ),
+                const Divider(height: 20.0),
+                TextField(
+                  controller: TextEditingController(text: formData.getCurrentComments()),
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.done,
+                  maxLines: 7,
+                  maxLength: 500,
+                  decoration: const InputDecoration(
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+                      labelText: "Comentarios extra",
+                      hintText: "Detalles sobre algún incidente que se desee especificar",
+                      floatingLabelBehavior: FloatingLabelBehavior.always),
+                  textAlign: TextAlign.justify,
+                  onSubmitted: (String? text) {
+                    String updatedText = text ?? "";
+                    formData.updateCommentsForCurrentPage(updatedText);
+                  },
+                ),
+                OutlinedButton(
+                  onPressed: () {
+                    formData.nextPage();
+                  },
+                  child: const Text("Siguiente"),
+                ),
+              ],
+            ),
           ),
         ),
       );

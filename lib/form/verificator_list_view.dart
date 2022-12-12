@@ -16,6 +16,7 @@ class VerificatorListView extends StatelessWidget {
     List<bool> valuesList = data.data.values.toList();
     return ListView.builder(
         shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
         itemCount: data.data.length,
         itemBuilder: (context, position) {
           return Row(
