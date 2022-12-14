@@ -3,31 +3,42 @@ import 'package:flutter/cupertino.dart';
 class FormData with ChangeNotifier {
   int _currentPage = 0;
   Map<VerificationZone, ZoneStateData> data = <VerificationZone, ZoneStateData>{
-    VerificationZone.Kitchen: const ZoneStateData(
-      data: {
-        "kitchen_kitchenOkay": true,
-        "kitchen_kitchenetTableOkay": true,
-        "kitchen_homeAppliancesOkay": true,
-        "kitchen_glassesOkay": true,
-        "kitchen_wineGlassesOkay": true,
-        "kitchen_dishesOkay": true,
-        "kitchen_cupsOkay": true,
-      },
-    ),
-    VerificationZone.Bedrooms: const ZoneStateData(
-      data: {
-        "bedroom_walls": true,
-        "bedroom_bed": true,
-        "bedroom_bedsideTable": true,
-        "bedroom_lamps": true,
-        "bedroom_tv": true,
-        "bedroom_wardrobe": true,
-        "bedroom_duvet": true,
-      },
-    ),
+    VerificationZone.Kitchen: const ZoneStateData(data: {
+      "kitchen_kitchenOkay": true,
+      "kitchen_kitchenetTableOkay": true,
+      "kitchen_homeAppliancesOkay": true,
+      "kitchen_glassesOkay": true,
+      "kitchen_wineGlassesOkay": true,
+      "kitchen_dishesOkay": true,
+      "kitchen_cupsOkay": true,
+      "kitchen_ceiling": true,
+    }),
+    VerificationZone.Bedrooms: const ZoneStateData(data: {
+      "bedroom_walls": true,
+      "bedroom_bed": true,
+      "bedroom_bedsideTable": true,
+      "bedroom_lamps": true,
+      "bedroom_tv": true,
+      "bedroom_wardrobe": true,
+      "bedroom_duvet": true,
+      "bedroom_ceiling": true,
+    }),
+    VerificationZone.LivingRoom: const ZoneStateData(data: {
+      "livingroom_walls": true,
+      "livingroom_sofas": true,
+      "livingroom_ceiling": true,
+      "livingroom_furniture": true,
+      "livingroom_tv": true,
+    }),
+    VerificationZone.Bathrooms: const ZoneStateData(data: {
+      "bathrooms_mirror": true,
+      "bathrooms_glass_door": true,
+      "bathrooms_toilet": true,
+    }),
   };
 
   void nextPage() {
+    if (_currentPage == data.length - 1) return;
     _currentPage++;
     notifyListeners();
   }
@@ -50,15 +61,12 @@ class FormData with ChangeNotifier {
 
   VerificationZone getVerificationZoneForPage() {
     VerificationZone zone = VerificationZone.Kitchen;
-    switch (_currentPage) {
-      case 0:
-        zone = VerificationZone.Kitchen;
-        break;
-      case 1:
-        zone = VerificationZone.Bedrooms;
-        break;
-      default:
-        zone = VerificationZone.Kitchen;
+    int index = 0;
+    for (var element in data.keys) {
+      if (index == _currentPage) {
+        zone = element;
+      }
+      index++;
     }
     return zone;
   }

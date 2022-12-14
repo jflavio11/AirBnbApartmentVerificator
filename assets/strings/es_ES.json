@@ -1,5 +1,6 @@
 {
-  "kitchen_title": "Revisión de cocina",
+
+  "kitchen_title": "Revisión de Cocina",
   "kitchen_kitchenOkay": "Cocina",
   "kitchen_kitchenetTableOkay": "Tablero de cuarzo",
   "kitchen_homeAppliancesOkay": "Electrodomésticos",
@@ -7,16 +8,31 @@
   "kitchen_wineGlassesOkay": "Copas de vidrio",
   "kitchen_dishesOkay": "Platos y menaje",
   "kitchen_cupsOkay": "Tazas",
+  "kitchen_ceiling": "Techo",
   "kitchen_extraComments": "Comentarios extra",
 
 
-  "Bedrooms_title": "Revisión de habitaciones",
+  "bedrooms_title": "Habitaciones",
   "bedroom_walls":  "Paredes",
   "bedroom_bed": "Cama",
   "bedroom_bedsideTable":  "Mesas de noche",
   "bedroom_lamps": "Lámparas",
   "bedroom_tv":  "TV",
   "bedroom_wardrobe": "Ropero",
-  "bedroom_duvet": "Duvet y sábanas"
+  "bedroom_duvet": "Duvet y sábanas",
+  "bedroom_ceiling": "Techo",
+
+
+  "livingroom_title": "Sala",
+  "livingroom_walls": "Paredes",
+  "livingroom_sofas": "Sofás",
+  "livingroom_tv": "Tv",
+  "livingroom_furniture": "Muebles",
+  "livingroom_ceiling": "Techo",
+
+  "bathrooms_title": "Baños",
+  "bathrooms_mirror": "Espejos",
+  "bathrooms_glass_door": "Puerta de vidrio o cortina de ducha",
+  "bathrooms_toilet": "Inodoro"
 
 }
